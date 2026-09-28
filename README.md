@@ -1,38 +1,70 @@
-# PocketSmart AI: Your Smart Budget & Recommendation Assistant
+# 💳 PocketSmart AI: Smart Budget & Recommendation Assistant
 
-PocketSmart AI is an intelligent, cross-platform GenAI recommendation assistant that transforms lifestyle budgeting for **Home Interiors**, **Party Planning**, and **Jewelry Styling**. 
+![FastAPI](https://img.shields.io/badge/FastAPI-0.115.2-009688?style=flat-square&logo=fastapi&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.13-3776AB?style=flat-square&logo=python&logoColor=white)
+![Google Gemini](https://img.shields.io/badge/Google%20Gemini-1.5%20Flash%20Pro-4285F4?style=flat-square&logo=google&logoColor=white)
+![SQLite](https://img.shields.io/badge/SQLite-Database-003B57?style=flat-square&logo=sqlite&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 
-Powered by **Google Gemini 1.5 Flash Pro** and a robust **FastAPI** backend, the system analyzes budget constraints, room setups, guest counts, and outfit photos to deliver curated recommendations with direct outbound search links to **Amazon, Flipkart, IKEA, Swiggy, Zomato, and OYO**.
+**PocketSmart AI** is a cross-platform GenAI lifestyle recommendation assistant that bridges everyday budgeting across **Home Interiors**, **Party Planning**, and **Jewelry Styling**.
+
+Powered by **Google Gemini 1.5 Flash Pro** and a lightweight **FastAPI** backend, the platform evaluates user budgets, room dimensions, guest counts, and outfit photos to generate curated, proportional recommendations with direct outbound search links to **Amazon, Flipkart, IKEA, Swiggy, Zomato, and OYO**.
 
 ---
 
-## 🌟 Key Features & Scenario Walkthroughs
+## 📌 Table of Contents
 
-### 🏡 Scenario 1: Home Interior Planning with Smart Budget Allocation
-- **User Inputs:** Total budget (₹), rooms (Living Room, Bedroom, Dining, etc.), quantities of essential items (LED lights, dining table, rugs, storage), and design style.
-- **AI Allocation Engine:** Intelligently allocates funds using a balanced proportional strategy:
-  - `45%` Furniture & Foundation Pieces (e.g. IKEA, Amazon)
-  - `25%` Lighting & Electrical Fixtures (e.g. Amazon, Flipkart)
-  - `20%` Soft Furnishings & Wall Decor (e.g. Flipkart, Pepperfry)
-  - `10%` Contingency & Delivery Buffer
-- **Outbound Links:** Direct clickable product search links to IKEA, Amazon, and Flipkart.
+- [Key Features & Scenarios](#-key-features--scenarios)
+  - [Scenario 1: Home Interior Planning](#1--home-interior-planning)
+  - [Scenario 2: AI-Based Party Budget Planning](#2--ai-based-party-budget-planning)
+  - [Scenario 3: Jewelry Recommendations with Multimodal Vision](#3--jewelry-recommendations-with-multimodal-vision)
+- [System Architecture](#-system-architecture)
+- [Project Directory Structure](#-project-directory-structure)
+- [Quick Start: Installation & Setup](#-quick-start-installation--setup)
+- [Running the Application](#-running-the-application)
+- [Automated Testing](#-automated-testing)
+- [API Reference](#-api-reference)
+- [Evaluation Credentials](#-evaluation-credentials)
 
-### 🎉 Scenario 2: AI-Based Party Budget Planning
-- **User Inputs:** Total event budget, guest count, occasion type (Birthday, Wedding, Corporate, Reunion), venue style, and catering/music preferences.
-- **Dynamic Per-Guest Engine:** Computes real-time per-head spending caps (`₹XXX / guest`).
+---
+
+## 🌟 Key Features & Scenarios
+
+### 1. 🏡 Home Interior Planning
+*Smart 45 / 25 / 20 / 10 Proportional Budget Allocation*
+
+- **Inputs:** Total budget (₹), room types (Living Room, Bedroom, Kitchen, Dining), item quantities (LED spotlights, ceiling fans, dining tables, rugs), and aesthetic style.
+- **Budget Allocation Strategy:**
+  - **45%** Furniture & Foundation Pieces (*IKEA, Amazon*)
+  - **25%** Lighting & Electrical Fixtures (*Amazon, Flipkart*)
+  - **20%** Soft Furnishings & Wall Decor (*Flipkart, Pepperfry*)
+  - **10%** Contingency & Delivery Buffer
+- **Platform Links:** Clickable search queries linking directly to matching products on IKEA and Amazon.
+
+---
+
+### 2. 🎉 AI-Based Party Budget Planning
+*Per-Guest Cost Optimization & Sourcing*
+
+- **Inputs:** Total event budget (₹), guest count, occasion type (Birthday, Wedding, Corporate, Reunion), venue style, and catering preferences.
+- **Dynamic Calculation:** Live JavaScript engine calculates per-head spend (`₹XXX / guest`) to prevent over-ordering.
 - **Vendor Allocation:**
-  - `45%` Food & Beverage Catering (Swiggy, Zomato)
-  - `30%` Venue & Guest Accommodation (OYO Townhouses, Banquet Halls)
-  - `20%` Theme Decor & Wireless Audio (Amazon party kits)
-  - `5%` Miscellaneous Buffer
+  - **45%** Food & Beverage Catering (*Swiggy, Zomato*)
+  - **30%** Venue & Guest Accommodations (*OYO Townhouses, Banquet Halls*)
+  - **20%** Theme Decor & Audio Equipment (*Amazon*)
+  - **5%** Miscellaneous Reserve
 
-### 💎 Scenario 3: Jewelry Recommendations with Multimodal Vision
-- **User Inputs:** Budget (₹), occasion (Wedding, Festive, Cocktail, Corporate), jewelry style (Traditional Kundan, Modern Minimalist, Rose Gold, Temple).
-- **Multimodal Outfit Vision:** Upload an optional photograph of your saree, lehenga, or suit. Gemini 1.5 Flash analyzes primary hues, neckline geometry, and metal undertones.
-- **Coordinated Allocation:**
-  - `50%` Statement Centerpiece (Choker / Pendant Necklace via CaratLane, Amazon)
-  - `30%` Accent Drop / Jhumka Earrings
-  - `20%` Stackable Bracelet / Cocktail Ring
+---
+
+### 3. 💎 Jewelry Recommendations with Multimodal Vision
+*Outfit Aesthetics & Color Coordination*
+
+- **Inputs:** Budget (₹), occasion (Wedding, Festive, Cocktail, Gala), style (Traditional Kundan, Modern Minimalist, Rose Gold, Temple).
+- **Multimodal AI Vision:** Upload an optional photograph of your attire. Gemini 1.5 Flash analyzes fabric hues, embroidery metals (gold/silver/rose-gold), and neckline geometry.
+- **Coordinated Distribution:**
+  - **50%** Statement Centerpiece (*CaratLane, Amazon*)
+  - **30%** Accent Earrings
+  - **20%** Stackable Bracelet / Cocktail Ring
 
 ---
 
@@ -40,39 +72,38 @@ Powered by **Google Gemini 1.5 Flash Pro** and a robust **FastAPI** backend, the
 
 ```mermaid
 flowchart TD
-    User([👤 User / Web Browser])
+    User([User / Browser])
     
-    subgraph Frontend["🎨 Frontend (Jinja2 + CSS3 + JS)"]
-        UI_Home["Landing Page (index.html)"]
-        UI_HomePlan["Home Planner (home_planner.html)"]
-        UI_PartyPlan["Party Planner (party_planner.html)"]
-        UI_JewelryPlan["Jewelry Planner with Image Upload (jewelry_planner.html)"]
-        UI_Results["Recommendations Dashboard (recommendations.html)"]
-        UI_History["History & Analytics (dashboard.html / history.html)"]
+    subgraph Frontend["Frontend Layer (Jinja2 + CSS3 + Vanilla JS)"]
+        UI_Home["Landing Page"]
+        UI_HomePlan["Home Planner"]
+        UI_PartyPlan["Party Planner"]
+        UI_JewelryPlan["Jewelry Planner"]
+        UI_Results["Recommendations Page"]
+        UI_Dashboard["Dashboard & History"]
     end
 
-    subgraph Backend["⚙️ Backend Service Layer (FastAPI)"]
-        Router_Auth["Auth Router (/login, /register, /token, /session-info)"]
-        Router_Planners["Planners Router (/generate-home, /generate-party, /generate-jewelry)"]
-        Router_Pages["Pages Router (/, /dashboard, /history, /testimonials)"]
+    subgraph Backend["Backend Layer (FastAPI)"]
+        Router_Auth["Auth Router (/login, /register, /token)"]
+        Router_Planners["Planners Router (/generate-*)"]
+        Router_Pages["Pages Router (/, /dashboard, /history)"]
         DB[(SQLite: pocketsmart.db)]
     end
 
-    subgraph AI_Engine["🧠 AI & Utility Services (gemini_utils.py)"]
-        GeminiClient["Gemini 1.5 Flash Pro (google-generativeai)"]
-        MultimodalVision["PIL Image Analysis (Outfit color & texture)"]
-        FallbackEngine["Intelligent Algorithmic Dynamic Fallback"]
-        PlatformLinker["Cross-Platform Link Generator"]
+    subgraph AI_Engine["AI & Recommendation Layer (gemini_utils.py)"]
+        GeminiClient["Gemini 1.5 Flash Pro"]
+        MultimodalVision["PIL Vision Analysis"]
+        FallbackEngine["Dynamic Fallback Engine"]
+        PlatformLinker["E-Commerce Link Generator"]
     end
 
-    subgraph ECommerce["🛒 Supported E-Commerce Platforms"]
+    subgraph Platforms["E-Commerce & Service Platforms"]
         Amazon["Amazon India"]
         IKEA["IKEA"]
         Flipkart["Flipkart"]
         Zomato["Zomato"]
         Swiggy["Swiggy"]
         OYO["OYO Stays"]
-        CaratLane["CaratLane / Myntra"]
     end
 
     User <--> Frontend
@@ -81,7 +112,7 @@ flowchart TD
     Backend <--> AI_Engine
     AI_Engine <--> GeminiClient
     AI_Engine --> PlatformLinker
-    PlatformLinker --> ECommerce
+    PlatformLinker --> Platforms
 ```
 
 ---
@@ -89,138 +120,129 @@ flowchart TD
 ## 📁 Project Directory Structure
 
 ```text
-pocket smat ai/
+PocketSmart-Ai/
 ├── app/
 │   ├── routes/
 │   │   ├── __init__.py
-│   │   ├── auth.py             # User registration, login, logout, token & session APIs
-│   │   ├── pages.py            # Landing, dashboard, history, testimonials, details
-│   │   └── planners.py         # /generate-home, /generate-party, /generate-jewelry
+│   │   ├── auth.py              # User registration, login, logout, token & session APIs
+│   │   ├── pages.py             # Landing, dashboard, history, testimonials, details
+│   │   └── planners.py          # /generate-home, /generate-party, /generate-jewelry
 │   ├── services/
 │   │   ├── __init__.py
-│   │   └── gemini_service.py   # Modular AI service wrapper
+│   │   └── gemini_service.py    # Modular AI service wrapper
 │   ├── static/
 │   │   ├── css/
-│   │   │   └── style.css       # Responsive, modern styling with platform badges
+│   │   │   └── style.css        # Responsive styling with platform brand themes
 │   │   └── js/
-│   │       └── app.js          # Sliders, per-head calculator, image preview, copy plan
+│   │       └── app.js           # Sliders, image preview, calculations, copy plan
 │   ├── templates/
-│   │   ├── base.html           # Master navigation & footer layout
-│   │   ├── index.html          # Main landing page with interactive preview & trust bar
-│   │   ├── testimonials.html   # Customer reviews, ratings, and verified savings
-│   │   ├── login.html          # Login card with 1-click Demo credentials
-│   │   ├── register.html       # User sign up form
-│   │   ├── dashboard.html      # Analytics stats cards, quick launchers, recent plans
-│   │   ├── history.html        # Filterable history log with details & deletion
-│   │   ├── home_planner.html   # Home interior planner with budget slider & allocation
-│   │   ├── party_planner.html  # Party planner with guest count & per-head cost
-│   │   ├── jewelry_planner.html# Jewelry planner with outfit photo drag-and-drop
-│   │   └── recommendations.html# Detailed recommendations with platform links & savings
-│   ├── config.py               # Settings and environment loader
-│   ├── database.py             # SQLite schema, user auth, and recommendation CRUD
+│   │   ├── base.html            # Master layout with responsive navbar & footer
+│   │   ├── index.html           # Landing page with interactive preview & partner bar
+│   │   ├── testimonials.html    # Verified customer stories & savings metrics
+│   │   ├── login.html           # Login page with 1-click Demo credentials
+│   │   ├── register.html        # Account creation form
+│   │   ├── dashboard.html       # Analytics counters, quick launchers, recent plans
+│   │   ├── history.html         # Saved plans log with category filtering
+│   │   ├── home_planner.html    # Home interior planner form
+│   │   ├── party_planner.html   # Party budget planner form
+│   │   ├── jewelry_planner.html # Jewelry planner with photo upload dropzone
+│   │   └── recommendations.html # Curated recommendations with platform search links
+│   ├── config.py                # Environment and configuration settings
+│   ├── database.py              # SQLite schema, user auth, and recommendation CRUD
 │   └── __init__.py
 ├── tests/
 │   ├── __init__.py
-│   └── test_app.py             # 17 comprehensive pytest unit & integration tests
+│   └── test_app.py              # 17 comprehensive pytest unit & integration tests
 ├── .vscode/
-│   ├── launch.json             # VS Code debug configs (FastAPI Run, Pytest)
-│   ├── settings.json           # Python interpreter & pytest configuration
-│   └── tasks.json              # VS Code run & test tasks
-├── .env.example                # Example environment file
-├── .env                        # Local environment settings
-├── gemini_utils.py             # Gemini 1.5 Flash multimodal integration & fallback engine
-├── main.py                     # FastAPI application entrypoint & lifespan handler
-├── pocketsmart.db              # SQLite database (auto-created on startup)
-├── requirements.txt            # Python dependencies
-└── README.md                   # Full documentation & setup guide
+│   ├── launch.json              # VS Code debug launcher (FastAPI Run, Pytest)
+│   ├── settings.json            # VS Code Python environment & test runner settings
+│   └── tasks.json               # VS Code build and run tasks
+├── .env.example                 # Example configuration template
+├── .env                         # Local environment configuration
+├── gemini_utils.py              # Gemini 1.5 Flash multimodal integration & fallback engine
+├── main.py                      # FastAPI application entrypoint with lifespan handler
+├── pocketsmart.db               # SQLite database (auto-initialized on startup)
+├── requirements.txt             # Python project dependencies
+└── README.md                    # Project documentation
 ```
 
 ---
 
-## ⚡ Quick Start: VS Code Setup & Running Instructions
+## ⚡ Quick Start: Installation & Setup
 
-### 1. Open Project in VS Code
-Open VS Code and navigate to the project directory:
+### 1. Clone the Repository
 ```bash
-code "c:\Users\anant\OneDrive\Desktop\pocket smat ai"
+git clone git@github.com:ananthika-commits/PocketSmart-Ai.git
+cd PocketSmart-Ai
 ```
 
-### 2. Set Up Python Virtual Environment
-A virtual environment `.venv` is pre-configured. If creating a new one:
-```powershell
-# Open Windows PowerShell in project root:
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
+### 2. Create and Activate Virtual Environment
+- **Windows (PowerShell):**
+  ```powershell
+  python -m venv .venv
+  .\.venv\Scripts\Activate.ps1
+  ```
+- **macOS / Linux:**
+  ```bash
+  python3 -m venv .venv
+  source .venv/bin/activate
+  ```
 
 ### 3. Install Dependencies
-```powershell
+```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure Environment Variables (`.env`)
-A `.env` file is already created for you in the project root.
-To use your Google Gemini API key:
-1. Visit [Google AI Studio](https://aistudio.google.com/) or [Google Cloud Console](https://console.cloud.google.com).
-2. Click **Get API key** and copy your key.
-3. Open `.env` and paste:
+### 4. Configure Environment Variables
+Copy `.env.example` to `.env`:
+```powershell
+copy .env.example .env
+```
+Inside `.env`, configure your settings:
 ```env
-GEMINI_API_KEY=AIzaSyYourActualKeyHere
-GEMINI_MODEL=gemini-1.5-flash
 SECRET_KEY=pocketsmart-secure-session-secret-key-prod-2026
+DATABASE_URL=sqlite:///./pocketsmart.db
+GEMINI_API_KEY=
+GEMINI_MODEL=gemini-1.5-flash
+HOST=0.0.0.0
+PORT=8000
+DEBUG=True
 ```
-> **Note:** If `GEMINI_API_KEY` is left blank, PocketSmart AI automatically switches to its **Smart Dynamic Fallback Engine**. The entire application, calculations, and platform links remain 100% functional for local testing without requiring an API key.
+> **Note on Gemini API Key:** You can generate a free Gemini API key from [Google AI Studio](https://aistudio.google.com/). If left empty, PocketSmart AI automatically runs using its **Smart Algorithmic Fallback Engine**, ensuring full local functionality without an API key.
 
-### 5. Run the Application
+---
 
-#### Option A: Via VS Code (Recommended)
-- Press <kbd>F5</kbd> or click **Run and Debug** in the left sidebar and choose:  
-  **`FastAPI: Run PocketSmart AI (Uvicorn)`**
-- Or press <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>B</kbd> to trigger the default build task.
+## 🚀 Running the Application
 
-#### Option B: Via Terminal
+### Option A: Using VS Code
+- Open the project folder in VS Code (`code .`).
+- Press <kbd>F5</kbd> or choose **Run > Start Debugging** (`FastAPI: Run PocketSmart AI (Uvicorn)`).
+
+### Option B: Using Terminal
 ```powershell
-.\.venv\Scripts\python -m uvicorn main:app --reload --port 8000
+uvicorn main:app --reload --port 8000
 ```
 
-### 6. Access the Application
-Open your web browser and navigate to:
-👉 **[http://127.0.0.1:8000](http://127.0.0.1:8000)**
+Once started, open your browser at:
+👉 **`http://127.0.0.1:8000`**
 
 ---
 
-## 🧪 Testing Instructions
+## 🧪 Automated Testing
 
-Run the automated test suite using `pytest`:
+PocketSmart AI includes an end-to-end test suite covering routes, multimodal inputs, authentication, and fallback logic:
 ```powershell
-.\.venv\Scripts\python -m pytest -v
+pytest -v
 ```
 
-All 17 test cases test:
-- Application startup & health check (`/startup`)
-- Landing page, testimonials, login, and registration routes
-- User authentication and session management
-- All three planner form GET requests and POST generation routes
-- Multimodal outfit image processing via PIL in the Jewelry planner
-- Platform search URL generation for Amazon, Flipkart, IKEA, Swiggy, Zomato, OYO
-- Smart fallback recommendation logic
-- Token issuing (`/token`) and session introspection (`/session-info`, `/session-data`)
+**Results:** `17 passed in ~3.5s`
 
 ---
 
-## 🔑 Quick Evaluation Credentials
-
-For rapid testing and evaluation, a pre-seeded demo user is automatically created upon initial startup:
-- **Username:** `demo_user`
-- **Password:** `demo1234`
-- *(Tip: On the `/login` page, you can simply click the **"Fill Demo Credentials"** button to automatically populate these fields.)*
-
----
-
-## 🔌 API Reference Summary
+## 🔌 API Reference
 
 | Endpoint | Method | Description |
-|---|---|---|
+|:---|:---|:---|
 | `/` | `GET` | Landing page introducing features and quick launchers |
 | `/testimonials` | `GET` | User reviews, savings metrics, and success stories |
 | `/home-planner` | `GET` | Form for Home Interior Budget Planner |
@@ -243,7 +265,14 @@ For rapid testing and evaluation, a pre-seeded demo user is automatically create
 
 ---
 
-## 🛡️ License & Acknowledgments
-Built with ❤️ using **FastAPI**, **Jinja2**, and **Google Gemini 1.5 Flash Pro**. Designed for smart budgets and smarter lifestyle choices.
-#   P o c k e t - S m a r t - s i  
- 
+## 🔑 Evaluation Credentials
+
+For testing and demonstration, a pre-seeded user is created automatically:
+- **Username:** `demo_user`
+- **Password:** `demo1234`
+- *(On the `/login` page, you can click the **"Fill Demo Credentials"** button to auto-populate these values.)*
+
+---
+
+## 📄 License
+This project is open-source and licensed under the [MIT License](LICENSE).
