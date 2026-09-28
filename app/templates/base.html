@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}PocketSmart AI | Smart Budget & Recommendation Assistant{% endblock %}</title>
+  <meta name="description" content="AI-powered budget planner and product recommendation assistant for home interiors, party events, and occasion jewelry." />
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/css/style.css" />
+</head>
+<body>
+  <!-- Header & Navigation -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="/">
+        <span class="brand-icon">✨</span>
+        <span class="brand-text">PocketSmart <span class="brand-ai">AI</span></span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle Navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="/" class="nav-link">Home</a>
+        <div class="nav-dropdown">
+          <span class="nav-link dropdown-toggle">Planners ▾</span>
+          <div class="dropdown-menu">
+            <a href="/home-planner">🏡 Home Interior Planner</a>
+            <a href="/party-planner">🎉 Party Budget Planner</a>
+            <a href="/jewelry-planner">💎 Jewelry Styling Planner</a>
+          </div>
+        </div>
+        <a href="/testimonials" class="nav-link">Testimonials</a>
+
+        {% if user %}
+          <a href="/dashboard" class="nav-link">Dashboard</a>
+          <a href="/history" class="nav-link">History</a>
+          <div class="user-pill">
+            <span class="user-avatar">👤</span>
+            <span class="user-name">{{ user.username }}</span>
+          </div>
+          <a href="/logout" class="btn btn-outline-sm">Logout</a>
+        {% else %}
+          <a href="/login" class="nav-link">Login</a>
+          <a href="/register" class="btn btn-primary-sm">Get Started</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <!-- Global Toast / Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Main Content Area -->
+  <main class="page-body">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-col brand-col">
+        <div class="brand footer-brand">
+          <span class="brand-icon">✨</span>
+          <span class="brand-text">PocketSmart <span class="brand-ai">AI</span></span>
+        </div>
+        <p class="footer-desc">
+          Intelligent, budget-first recommendations powered by Gemini 1.5 Flash Pro. Plan home interiors, unforgettable events, and coordinated jewelry without overspending.
+        </p>
+        <div class="platform-chips">
+          <span class="chip-item">Amazon</span>
+          <span class="chip-item">Flipkart</span>
+          <span class="chip-item">IKEA</span>
+          <span class="chip-item">Swiggy</span>
+          <span class="chip-item">Zomato</span>
+          <span class="chip-item">OYO</span>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Planners</h4>
+        <ul class="footer-links">
+          <li><a href="/home-planner">Home Interior Planner</a></li>
+          <li><a href="/party-planner">Party Event Planner</a></li>
+          <li><a href="/jewelry-planner">Jewelry Styling Planner</a></li>
+          <li><a href="/testimonials">Success Stories</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>User Portal</h4>
+        <ul class="footer-links">
+          {% if user %}
+            <li><a href="/dashboard">Dashboard</a></li>
+            <li><a href="/history">Saved Plans</a></li>
+            <li><a href="/logout">Logout</a></li>
+          {% else %}
+            <li><a href="/login">User Login</a></li>
+            <li><a href="/register">Create Account</a></li>
+            <li><a href="/testimonials">Reviews</a></li>
+          {% endif %}
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>AI Engine</h4>
+        <p class="ai-status-note">
+          <span class="status-dot"></span> Powered by Google Gemini Multimodal Intelligence with real-time budget optimization.
+        </p>
+        <p class="copyright-sub">
+          © <span id="currentYear">2026</span> PocketSmart AI. All rights reserved.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

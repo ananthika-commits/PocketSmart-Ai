@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Recommendation History | PocketSmart AI{% endblock %}
+
+{% block content %}
+<section class="section history-section">
+  <div class="container">
+    <div class="history-page-header">
+      <div>
+        <span class="eyebrow">Saved Projects</span>
+        <h1 class="page-title">Recommendation History</h1>
+        <p class="page-subtitle">Review, revisit, and manage your past AI-generated budgets and curated shopping options.</p>
+      </div>
+      <div>
+        <a href="/home-planner" class="btn btn-primary">+ Create New Plan</a>
+      </div>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <div class="filter-tabs-row">
+      <a href="/history" class="filter-tab {% if selected_category == 'All' %}active{% endif %}">
+        All Categories
+      </a>
+      <a href="/history?category=Home Interior" class="filter-tab {% if selected_category == 'Home Interior' %}active{% endif %}">
+        🏡 Home Interior
+      </a>
+      <a href="/history?category=Party Planning" class="filter-tab {% if selected_category == 'Party Planning' %}active{% endif %}">
+        🎉 Party Planning
+      </a>
+      <a href="/history?category=Jewelry Styling" class="filter-tab {% if selected_category == 'Jewelry Styling' %}active{% endif %}">
+        💎 Jewelry Styling
+      </a>
+    </div>
+
+    <!-- History Cards Feed -->
+    {% if history %}
+    <div class="history-feed">
+      {% for item in history %}
+      <article class="history-card-detailed">
+        <div class="history-card-header">
+          <div class="left-meta">
+            <span class="category-pill-sm cat-{{ item.category|lower|replace(' ', '-') }}">{{ item.category }}</span>
+            <span class="meta-date">Saved on {{ item.created_at }}</span>
+          </div>
+          <div class="right-actions">
+            <a href="/recommendations-details?id={{ item.id }}" class="btn-micro-blue">View Details &rarr;</a>
+            <form method="post" action="/history/delete/{{ item.id }}" onsubmit="return confirm('Delete this saved plan?');" style="display:inline;">
+              <button type="submit" class="btn-micro-del" title="Delete plan">🗑️</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="history-card-body">
+          <h3 class="history-summary">{{ item.result_payload.summary }}</h3>
+          
+          <div class="history-params-chips">
+            <span class="chip-param">Target Budget: <strong>₹{{ "{:,.0f}".format(item.input_payload.get('budget', 0)) }}</strong></span>
+            {% if item.input_payload.get('rooms') %}
+              <span class="chip-param">Rooms: <strong>{{ item.input_payload.get('rooms') }}</strong></span>
+            {% endif %}
+            {% if item.input_payload.get('guest_count') %}
+              <span class="chip-param">Guests: <strong>{{ item.input_payload.get('guest_count') }}</strong></span>
+            {% endif %}
+            {% if item.input_payload.get('occasion') %}
+              <span class="chip-param">Occasion: <strong>{{ item.input_payload.get('occasion') }}</strong></span>
+            {% endif %}
+            {% if item.input_payload.get('style') %}
+              <span class="chip-param">Style: <strong>{{ item.input_payload.get('style') }}</strong></span>
+            {% endif %}
+          </div>
+
+          <!-- Product Recommendation Previews -->
+          <div class="history-reco-preview-grid">
+            {% for rec in item.result_payload.recommendations %}
+            <div class="reco-preview-card">
+              <span class="preview-platform-tag">{{ rec.platform }}</span>
+              <div class="preview-rec-name">{{ rec.name }}</div>
+              <div class="preview-rec-price">{{ rec.price }}</div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state-box">
+      <span class="empty-icon">🔍</span>
+      <h3>No history found for {{ selected_category }}</h3>
+      <p>Try switching categories or generate a new budget recommendation plan.</p>
+      <div class="empty-actions mt-16">
+        <a href="/home-planner" class="btn btn-primary">Home Planner</a>
+        <a href="/party-planner" class="btn btn-secondary">Party Planner</a>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Register | PocketSmart AI{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+  <div class="container auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span class="auth-icon">🚀</span>
+        <h1>Create Your Account</h1>
+        <p>Unlock personalized cross-platform recommendations and save all your lifestyle plans.</p>
+      </div>
+
+      {% if error %}
+        <div class="alert alert-error">
+          <span class="alert-icon">⚠️</span>
+          <span>{{ error }}</span>
+        </div>
+      {% endif %}
+
+      <form method="post" action="/register" class="auth-form" id="registerForm">
+        <div class="field">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="form-control"
+            placeholder="Choose a unique username"
+            required
+            minlength="3"
+            autofocus
+          />
+        </div>
+
+        <div class="field">
+          <label for="email">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control"
+            placeholder="name@example.com"
+            required
+          />
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            placeholder="Minimum 4 characters"
+            required
+            minlength="4"
+          />
+        </div>
+
+        <div class="field">
+          <label for="confirm_password">Confirm Password</label>
+          <input
+            type="password"
+            id="confirm_password"
+            name="confirm_password"
+            class="form-control"
+            placeholder="Re-enter your password"
+            required
+            minlength="4"
+          />
+        </div>
+
+        <button class="btn btn-primary btn-block" type="submit">
+          <span>Create Account &rarr;</span>
+        </button>
+      </form>
+
+      <div class="auth-footer-links">
+        <p>Already have an account? <a href="/login">Log in here</a></p>
+        <p><a href="/">Return to Home</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block title %}Home Interior Budget Planner | PocketSmart AI{% endblock %}
+
+{% block content %}
+<section class="section planner-hero-section">
+  <div class="container planner-shell">
+    <!-- Left Column: Copy & Insights -->
+    <div class="planner-copy">
+      <span class="eyebrow">Scenario 1 • Home Interior Planning</span>
+      <h1>Smart Budget Allocation for Your Dream Home.</h1>
+      <p>
+        Tell Gemini AI your target budget, the rooms you want to design, and your essential furnishings. PocketSmart AI balances costs across <strong>IKEA, Amazon, Flipkart, and Pepperfry</strong> to bring your interior vision to life without financial stress.
+      </p>
+
+      <div class="planner-perks">
+        <div class="perk-item">
+          <span class="perk-icon">⚖️</span>
+          <div>
+            <strong>Balanced 45/25/20/10 Ratio</strong>
+            <small>Optimizes furniture, lighting, decor, and reserve buffer.</small>
+          </div>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">🛋️</span>
+          <div>
+            <strong>Cross-Platform Sourcing</strong>
+            <small>Pairs durable IKEA foundation pieces with stylish Amazon decor.</small>
+          </div>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">💡</span>
+          <div>
+            <strong>Lighting & Ambience Strategy</strong>
+            <small>Room-specific Kelvin color temperature & lumens advice.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Interactive Form -->
+    <div class="planner-form-card">
+      <div class="form-header">
+        <h2>Configure Your Home Plan</h2>
+        <p>Fill in your requirements below for an instant AI-curated plan.</p>
+      </div>
+
+      <form method="post" action="/generate-home" id="homePlannerForm" class="planner-form">
+        <!-- Budget Input -->
+        <div class="field">
+          <div class="label-row">
+            <label for="budget">Total Budget (₹)</label>
+            <span class="budget-display" id="homeBudgetDisplay">₹35,000</span>
+          </div>
+          <input
+            type="range"
+            id="budgetSlider"
+            min="5000"
+            max="300000"
+            step="1000"
+            value="35000"
+            class="range-slider"
+          />
+          <input
+            type="number"
+            id="budget"
+            name="budget"
+            min="2000"
+            max="1000000"
+            value="35000"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <!-- Room Types -->
+        <div class="field">
+          <label for="rooms">Target Rooms</label>
+          <input
+            type="text"
+            id="rooms"
+            name="rooms"
+            value="Living Room, Bedroom, Dining Area"
+            placeholder="e.g. Living Room, Master Bedroom, Kitchen"
+            class="form-control"
+            required
+          />
+          <small class="field-hint">Quick suggestions: Living Room, Bedroom, Kitchen, Dining, Balcony</small>
+        </div>
+
+        <!-- Key Items & Quantities -->
+        <div class="field">
+          <label for="items">Required Items & Quantities</label>
+          <textarea
+            id="items"
+            name="items"
+            rows="3"
+            class="form-control"
+            placeholder="e.g. 6 LED spotlight ceiling fixtures, 1 minimalist wooden dining table, 1 textured area rug, 2 accent lamps"
+            required
+          >4 Warm LED ceiling lights, 1 solid wood coffee/dining table, 1 geometric area rug, 1 wall shelf</textarea>
+          <small class="field-hint">Include quantities (e.g. 4 lights, 1 dining table) for precise budget distribution.</small>
+        </div>
+
+        <!-- Style Preference -->
+        <div class="field">
+          <label for="style">Interior Style Preference</label>
+          <select id="style" name="style" class="form-control">
+            <option value="Modern Minimalist" selected>Modern Minimalist (Clean lines, neutral palette)</option>
+            <option value="Scandinavian IKEA Style">Scandinavian (Functional, bright pine & white)</option>
+            <option value="Contemporary Luxury">Contemporary Luxury (Warm brass, deep colors, plush velvet)</option>
+            <option value="Bohemian & Earthy">Bohemian & Earthy (Rattan, indoor plants, warm textures)</option>
+            <option value="Budget Smart Utility">Budget Smart Utility (Max durability per rupee spent)</option>
+          </select>
+        </div>
+
+        <!-- Live Allocation Estimate Indicator -->
+        <div class="allocation-preview-box">
+          <div class="preview-bar-title">Projected Allocation Split:</div>
+          <div class="allocation-bar-mini">
+            <div class="bar-seg seg-furn" title="Furniture ~45%" style="width: 45%;"></div>
+            <div class="bar-seg seg-light" title="Lighting ~25%" style="width: 25%;"></div>
+            <div class="bar-seg seg-decor" title="Decor ~20%" style="width: 20%;"></div>
+            <div class="bar-seg seg-buf" title="Buffer ~10%" style="width: 10%;"></div>
+          </div>
+          <div class="allocation-legend">
+            <span><i class="dot-furn"></i> Furniture (45%)</span>
+            <span><i class="dot-light"></i> Lighting (25%)</span>
+            <span><i class="dot-decor"></i> Decor (20%)</span>
+            <span><i class="dot-buf"></i> Buffer (10%)</span>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="btn btn-primary btn-block" type="submit" id="submitBtn">
+          <span>✨ Generate Home Recommendations</span>
+        </button>
+
+        <!-- Loading State Indicator (Hidden by default, shown by app.js on submit) -->
+        <div class="form-loading" id="formLoading">
+          <div class="spinner"></div>
+          <p>Gemini AI is analyzing your budget and fetching platform matches...</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}Jewelry Styling Budget Planner | PocketSmart AI{% endblock %}
+
+{% block content %}
+<section class="section planner-hero-section">
+  <div class="container planner-shell">
+    <!-- Left Column: Copy & Multimodal Showcase -->
+    <div class="planner-copy">
+      <span class="eyebrow">Scenario 3 • Jewelry Recommendations</span>
+      <h1>AI Jewelry Styling Tailored to Your Outfit & Budget.</h1>
+      <p>
+        Never guess which earrings or necklace complement your neckline and attire color again. Upload an optional photo of your outfit, saree, or suit—Gemini 1.5 Flash Pro analyzes color palettes, textures, and neckline geometry to curate jewelry from <strong>Amazon, Flipkart, CaratLane, and Myntra</strong>.
+      </p>
+
+      <div class="planner-perks">
+        <div class="perk-item">
+          <span class="perk-icon">📸</span>
+          <div>
+            <strong>Multimodal Vision Analysis</strong>
+            <small>Extracts dominant hues and metallic accents directly from your outfit image.</small>
+          </div>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">✨</span>
+          <div>
+            <strong>Neckline & Silhouette Harmony</strong>
+            <small>Recommends chokers, deep V-drops, or chandelier earrings based on collar design.</small>
+          </div>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">💎</span>
+          <div>
+            <strong>Verified Hallmark & Alloy Advice</strong>
+            <small>Includes anti-tarnish and pricing guidance to maximize luxury per rupee.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Interactive Form with Image Upload & Preview -->
+    <div class="planner-form-card">
+      <div class="form-header">
+        <h2>Configure Your Jewelry Styling Plan</h2>
+        <p>Set your budget and style or upload an outfit picture.</p>
+      </div>
+
+      <form
+        method="post"
+        action="/generate-jewelry"
+        id="jewelryPlannerForm"
+        class="planner-form"
+        enctype="multipart/form-data"
+      >
+        <!-- Budget Input -->
+        <div class="field">
+          <div class="label-row">
+            <label for="jewelryBudget">Budget (₹)</label>
+            <span class="budget-display" id="jewelryBudgetDisplay">₹15,000</span>
+          </div>
+          <input
+            type="range"
+            id="jewelryBudgetSlider"
+            min="2000"
+            max="200000"
+            step="1000"
+            value="15000"
+            class="range-slider"
+          />
+          <input
+            type="number"
+            id="jewelryBudget"
+            name="budget"
+            min="1000"
+            max="1000000"
+            value="15000"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <!-- Occasion -->
+        <div class="field">
+          <label for="occasion">Occasion / Event</label>
+          <select id="occasion" name="occasion" class="form-control">
+            <option value="Wedding / Sangeet / Reception" selected>Wedding / Sangeet / Reception</option>
+            <option value="Festive Celebration (Diwali / Eid / Puja)">Festive Celebration (Diwali, Eid, Puja)</option>
+            <option value="Cocktail Evening / Party">Cocktail Evening / Party</option>
+            <option value="Formal Corporate Gala">Formal Corporate Gala</option>
+            <option value="Romantic Date Night / Anniversary">Romantic Date Night / Anniversary</option>
+          </select>
+        </div>
+
+        <!-- Style Preference -->
+        <div class="field">
+          <label for="style">Jewelry Style</label>
+          <select id="style" name="style" class="form-control">
+            <option value="Traditional Ethnic / Kundan & Polki" selected>Traditional Ethnic (Kundan, Polki, Pearls)</option>
+            <option value="Modern Chic Minimalist">Modern Chic Minimalist (Dainty chains, geometric drops)</option>
+            <option value="Royal Temple Heritage">Royal Temple Heritage (Antique matte gold, ruby/emerald stones)</option>
+            <option value="Contemporary Rose Gold Glam">Contemporary Rose Gold Glam (Zirconia crystals, sleek cuffs)</option>
+            <option value="Boho Silver Oxidized">Boho Silver Oxidized (Tribal engraved, statement collars)</option>
+          </select>
+        </div>
+
+        <!-- Outfit Notes -->
+        <div class="field">
+          <label for="notes">Outfit Details (Color, Neckline, Fabric)</label>
+          <textarea
+            id="notes"
+            name="notes"
+            rows="2"
+            class="form-control"
+            placeholder="e.g. Emerald green silk lehenga with gold zari border, sweetheart neckline"
+          >Emerald green silk lehenga with antique gold embroidery, sweetheart neckline</textarea>
+        </div>
+
+        <!-- Optional Outfit Image Upload with Instant Preview -->
+        <div class="field">
+          <label>Optional Outfit Image (Multimodal Vision)</label>
+          <div class="upload-dropzone" id="uploadDropzone">
+            <input type="file" id="outfitImageInput" name="image" accept="image/*" class="file-input-hidden" />
+            <div class="dropzone-content" id="dropzonePrompt">
+              <span class="upload-icon">📷</span>
+              <p><strong>Click to browse or drop an outfit picture</strong></p>
+              <small>JPEG, PNG, WEBP up to 10MB</small>
+            </div>
+            <!-- Image preview box -->
+            <div class="image-preview-wrap" id="imagePreviewWrap" style="display: none;">
+              <img id="imagePreview" src="" alt="Outfit Preview" />
+              <button type="button" id="removeImageBtn" class="btn-remove-img" title="Remove image">✕</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Live Allocation Estimate Indicator -->
+        <div class="allocation-preview-box">
+          <div class="preview-bar-title">Projected Allocation Split:</div>
+          <div class="allocation-bar-mini">
+            <div class="bar-seg seg-neck" title="Statement piece ~50%" style="width: 50%;"></div>
+            <div class="bar-seg seg-ear" title="Earrings ~30%" style="width: 30%;"></div>
+            <div class="bar-seg seg-brace" title="Bracelet/Rings ~20%" style="width: 20%;"></div>
+          </div>
+          <div class="allocation-legend">
+            <span><i class="dot-neck"></i> Statement Piece (50%)</span>
+            <span><i class="dot-ear"></i> Earrings (30%)</span>
+            <span><i class="dot-brace"></i> Bracelet/Ring (20%)</span>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="btn btn-primary btn-block" type="submit" id="jewelrySubmitBtn">
+          <span>💎 Generate Jewelry Matches</span>
+        </button>
+
+        <!-- Loading State Indicator -->
+        <div class="form-loading" id="jewelryFormLoading">
+          <div class="spinner"></div>
+          <p>Gemini AI is analyzing outfit aesthetics and matching jewelry pieces...</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

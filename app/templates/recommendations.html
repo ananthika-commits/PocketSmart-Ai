@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block title %}{{ category }} Recommendations | PocketSmart AI{% endblock %}
+
+{% block content %}
+<section class="section results-section">
+  <div class="container">
+    <!-- Top Action & Navigation Bar -->
+    <div class="results-top-bar">
+      <div class="breadcrumb">
+        <a href="/">Home</a> / 
+        {% if "Home" in category %}
+          <a href="/home-planner">Home Planner</a>
+        {% elif "Party" in category %}
+          <a href="/party-planner">Party Planner</a>
+        {% else %}
+          <a href="/jewelry-planner">Jewelry Planner</a>
+        {% endif %}
+        / <span>Recommendations</span>
+      </div>
+
+      <div class="action-btn-group">
+        <button type="button" class="btn btn-outline-sm" onclick="window.print()">
+          <span>🖨️ Print / Save PDF</span>
+        </button>
+        <button type="button" class="btn btn-outline-sm" id="copyPlanBtn">
+          <span>📋 Copy Plan Summary</span>
+        </button>
+        {% if user %}
+          <a href="/dashboard" class="btn btn-secondary-sm">Dashboard</a>
+        {% else %}
+          <a href="/register" class="btn btn-primary-sm">Save to Account</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Main Results Hero Card -->
+    <div class="results-hero-card">
+      <div class="results-hero-header">
+        <div>
+          <span class="category-pill">{{ category }}</span>
+          <h1 class="results-title">{{ result.summary }}</h1>
+          <p class="budget-note-text">{{ result.budget_note }}</p>
+        </div>
+        <div class="status-badge-wrap">
+          <span class="badge-status-ok">✔ Within Target Budget</span>
+        </div>
+      </div>
+
+      <!-- Financial Snapshot Bar -->
+      <div class="financial-snapshot-grid">
+        <div class="snapshot-col">
+          <span class="snap-label">Allocated Budget</span>
+          <span class="snap-val">
+            ₹{{ "{:,.0f}".format(input_data.get('budget', 0)) if input_data and input_data.get('budget') else (result.total_estimated_spend or "₹25,000") }}
+          </span>
+        </div>
+        <div class="snapshot-col">
+          <span class="snap-label">Estimated Spend</span>
+          <span class="snap-val spend-val">{{ result.total_estimated_spend or "Optimized" }}</span>
+        </div>
+        <div class="snapshot-col">
+          <span class="snap-label">Estimated Savings</span>
+          <span class="snap-val savings-val">{{ result.estimated_savings or "₹3,500+" }}</span>
+        </div>
+        <div class="snapshot-col">
+          <span class="snap-label">Platform Comparison</span>
+          <span class="snap-val verified-val">Multi-Vendor Curated</span>
+        </div>
+      </div>
+
+      <!-- Budget Allocation Bar Visualizer -->
+      {% if result.budget_allocation %}
+      <div class="budget-allocation-block">
+        <div class="alloc-title-row">
+          <h3>Budget Distribution Strategy</h3>
+          <small>Proportional fund split across categories</small>
+        </div>
+        <div class="multi-progress-bar">
+          {% for alloc in result.budget_allocation %}
+            {% set seg_class = 'seg-' ~ loop.index %}
+            <div
+              class="progress-seg {{ seg_class }}"
+              style="width: {{ alloc.percentage }}%;"
+              title="{{ alloc.label }}: {{ alloc.percentage }}% ({{ alloc.amount }})"
+            >
+              <span class="seg-label-inside">{{ alloc.percentage }}%</span>
+            </div>
+          {% endfor %}
+        </div>
+        <div class="alloc-legend-row">
+          {% for alloc in result.budget_allocation %}
+            {% set dot_class = 'dot-' ~ loop.index %}
+            <div class="legend-chip">
+              <span class="legend-color-dot {{ dot_class }}"></span>
+              <span class="chip-name">{{ alloc.label }}</span>
+              <span class="chip-amt"><strong>{{ alloc.amount }}</strong> ({{ alloc.percentage }}%)</span>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Multimodal / Outfit Aesthetic Analysis Card (if available) -->
+      {% if result.outfit_analysis %}
+      <div class="outfit-analysis-box">
+        <div class="analysis-icon">🎨</div>
+        <div class="analysis-copy">
+          <h4>Gemini AI Aesthetic & Color Match Analysis</h4>
+          <p>{{ result.outfit_analysis }}</p>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Recommendations Grid Title -->
+    <div class="section-title-wrap">
+      <h2>Curated Recommendations & Shopping Links</h2>
+      <p>Directly verified options from leading platforms tailored to your budget constraints.</p>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="recommendations-container-grid">
+      {% for item in result.recommendations %}
+      <article class="product-card">
+        <div class="product-card-top">
+          {% set p_lower = item.platform|lower %}
+          {% if 'amazon' in p_lower %}
+            <span class="platform-badge platform-amazon">Amazon</span>
+          {% elif 'ikea' in p_lower %}
+            <span class="platform-badge platform-ikea">IKEA</span>
+          {% elif 'flipkart' in p_lower %}
+            <span class="platform-badge platform-flipkart">Flipkart</span>
+          {% elif 'swiggy' in p_lower %}
+            <span class="platform-badge platform-swiggy">Swiggy</span>
+          {% elif 'zomato' in p_lower %}
+            <span class="platform-badge platform-zomato">Zomato</span>
+          {% elif 'oyo' in p_lower %}
+            <span class="platform-badge platform-oyo">OYO Stays</span>
+          {% elif 'caratlane' in p_lower %}
+            <span class="platform-badge platform-caratlane">CaratLane</span>
+          {% else %}
+            <span class="platform-badge platform-default">{{ item.platform }}</span>
+          {% endif %}
+
+          <span class="item-category-tag">{{ item.category or 'Curated Pick' }}</span>
+        </div>
+
+        <h3 class="product-name">{{ item.name }}</h3>
+
+        <div class="product-price-box">
+          <span class="price-amount">{{ item.price }}</span>
+          {% if item.savings_tip %}
+            <span class="deal-pill">💡 {{ item.savings_tip }}</span>
+          {% endif %}
+        </div>
+
+        <p class="product-reason">{{ item.reason }}</p>
+
+        <div class="product-card-footer">
+          <a
+            href="{{ item.url or '#' }}"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-platform-outbound"
+          >
+            <span>View on {{ item.platform }}</span>
+            <span class="outbound-arrow">↗</span>
+          </a>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+
+    <!-- Styling & Budget Optimization Tips -->
+    {% if result.tips %}
+    <div class="tips-box-card">
+      <div class="tips-header">
+        <span class="tips-icon">💡</span>
+        <h3>Smart Execution & Savings Tips</h3>
+      </div>
+      <ul class="tips-list">
+        {% for tip in result.tips %}
+          <li>{{ tip }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endif %}
+
+    <!-- Bottom Actions -->
+    <div class="bottom-action-banner">
+      <div class="bottom-copy">
+        <h3>Need to adjust numbers or test another scenario?</h3>
+        <p>You can re-run planners with different constraints or explore other planning modules.</p>
+      </div>
+      <div class="bottom-btn-group">
+        {% if "Home" in category %}
+          <a href="/home-planner" class="btn btn-primary">Edit Home Plan</a>
+          <a href="/party-planner" class="btn btn-secondary">Try Party Planner</a>
+        {% elif "Party" in category %}
+          <a href="/party-planner" class="btn btn-primary">Edit Party Plan</a>
+          <a href="/jewelry-planner" class="btn btn-secondary">Try Jewelry Stylist</a>
+        {% else %}
+          <a href="/jewelry-planner" class="btn btn-primary">Edit Jewelry Plan</a>
+          <a href="/home-planner" class="btn btn-secondary">Try Home Planner</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

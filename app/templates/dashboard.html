@@ -1,0 +1,145 @@
+{% extends "base.html" %}
+
+{% block title %}User Dashboard | PocketSmart AI{% endblock %}
+
+{% block content %}
+<section class="section dashboard-section">
+  <div class="container">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header-card">
+      <div class="user-greeting">
+        <span class="greeting-eyebrow">User Dashboard</span>
+        <h1 class="user-title">Welcome back, {{ user.username }}!</h1>
+        <p class="user-subtitle">Track your lifestyle plans, review saved recommendations, and launch new AI-optimized budgets.</p>
+      </div>
+      <div class="header-action-wrap">
+        <a href="/home-planner" class="btn btn-primary"><span>+ New Budget Plan</span></a>
+      </div>
+    </div>
+
+    <!-- Analytics Stats Grid -->
+    <div class="stats-overview-grid">
+      <div class="stat-widget">
+        <div class="stat-icon-wrap icon-blue">📋</div>
+        <div class="stat-widget-body">
+          <span class="stat-label">Total Plans Generated</span>
+          <h2 class="stat-value">{{ stats.total_plans }}</h2>
+          <small class="stat-help">Saved across all planners</small>
+        </div>
+      </div>
+
+      <div class="stat-widget">
+        <div class="stat-icon-wrap icon-green">💰</div>
+        <div class="stat-widget-body">
+          <span class="stat-label">Total Budget Analyzed</span>
+          <h2 class="stat-value">₹{{ "{:,.0f}".format(stats.total_budget_analyzed) }}</h2>
+          <small class="stat-help">Cumulated user inputs</small>
+        </div>
+      </div>
+
+      <div class="stat-widget">
+        <div class="stat-icon-wrap icon-amber">🏷️</div>
+        <div class="stat-widget-body">
+          <span class="stat-label">Estimated Savings</span>
+          <h2 class="stat-value">₹{{ "{:,.0f}".format(stats.estimated_savings) }}</h2>
+          <small class="stat-help">Via multi-platform deals</small>
+        </div>
+      </div>
+
+      <div class="stat-widget">
+        <div class="stat-icon-wrap icon-purple">🎯</div>
+        <div class="stat-widget-body">
+          <span class="stat-label">Top Category</span>
+          <h2 class="stat-value">{{ stats.top_category }}</h2>
+          <small class="stat-help">Most frequent planner</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Launcher Cards -->
+    <div class="quick-launchers-section">
+      <h3 class="subheading">Quick Launch Planners</h3>
+      <div class="launchers-grid">
+        <a href="/home-planner" class="launcher-card home-border">
+          <div class="l-icon">🏡</div>
+          <div class="l-info">
+            <h4>Home Interior Planner</h4>
+            <p>IKEA & Amazon room furnishing</p>
+          </div>
+          <span class="l-arrow">&rarr;</span>
+        </a>
+
+        <a href="/party-planner" class="launcher-card party-border">
+          <div class="l-icon">🎉</div>
+          <div class="l-info">
+            <h4>Party Budget Planner</h4>
+            <p>Zomato, OYO & Amazon event packages</p>
+          </div>
+          <span class="l-arrow">&rarr;</span>
+        </a>
+
+        <a href="/jewelry-planner" class="launcher-card jewelry-border">
+          <div class="l-icon">💎</div>
+          <div class="l-info">
+            <h4>Jewelry Styling Planner</h4>
+            <p>Multimodal vision outfit coordination</p>
+          </div>
+          <span class="l-arrow">&rarr;</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Recent Recommendations Log -->
+    <div class="recent-plans-block">
+      <div class="block-header-row">
+        <div>
+          <h3 class="subheading">Recent Recommendation Plans</h3>
+          <p class="subheading-desc">Your latest AI-curated budgets with instant detail access.</p>
+        </div>
+        <a href="/history" class="view-all-link">View All History &rarr;</a>
+      </div>
+
+      {% if history %}
+      <div class="plans-list-container">
+        {% for item in history %}
+        <article class="plan-summary-card">
+          <div class="plan-card-left">
+            <span class="plan-cat-pill cat-{{ item.category|lower|replace(' ', '-') }}">
+              {{ item.category }}
+            </span>
+            <h4 class="plan-summary-title">
+              {{ item.result_payload.summary or ('Plan for ₹' ~ item.input_payload.get('budget', 0)) }}
+            </h4>
+            <div class="plan-params-row">
+              <span class="param-tag">Budget: ₹{{ "{:,.0f}".format(item.input_payload.get('budget', 0)) }}</span>
+              {% if item.input_payload.get('rooms') %}
+                <span class="param-tag">Rooms: {{ item.input_payload.get('rooms') }}</span>
+              {% elif item.input_payload.get('guest_count') %}
+                <span class="param-tag">Guests: {{ item.input_payload.get('guest_count') }}</span>
+              {% elif item.input_payload.get('occasion') %}
+                <span class="param-tag">Occasion: {{ item.input_payload.get('occasion') }}</span>
+              {% endif %}
+              <span class="param-time">{{ item.created_at }}</span>
+            </div>
+          </div>
+
+          <div class="plan-card-right">
+            <a href="/recommendations-details?id={{ item.id }}" class="btn btn-outline-sm">
+              <span>View Full Details &rarr;</span>
+            </a>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state-box">
+        <span class="empty-icon">📂</span>
+        <h3>No recommendation plans generated yet</h3>
+        <p>Launch any planner above to get your first Gemini-powered budget breakdown.</p>
+        <a href="/home-planner" class="btn btn-primary mt-16">Start Home Planner</a>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

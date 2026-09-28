@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Login | PocketSmart AI{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+  <div class="container auth-container">
+    <div class="auth-card">
+      <div class="auth-header">
+        <span class="auth-icon">🔐</span>
+        <h1>Welcome Back</h1>
+        <p>Sign in to access your personalized budget dashboard and saved plans.</p>
+      </div>
+
+      {% if error %}
+        <div class="alert alert-error">
+          <span class="alert-icon">⚠️</span>
+          <span>{{ error }}</span>
+        </div>
+      {% endif %}
+
+      <form method="post" action="/login" class="auth-form" id="loginForm">
+        <div class="field">
+          <label for="username">Username or Email</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            class="form-control"
+            value="{{ username_input or '' }}"
+            placeholder="Enter your username or email"
+            required
+            autofocus
+          />
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control"
+            placeholder="Enter your password"
+            required
+          />
+        </div>
+
+        <button class="btn btn-primary btn-block" type="submit">
+          <span>Sign In &rarr;</span>
+        </button>
+      </form>
+
+      <!-- Quick Demo Credentials for Instant Evaluation -->
+      <div class="demo-login-box">
+        <div class="demo-login-title">⚡ Quick Evaluation Demo:</div>
+        <p>Click below to automatically fill and test login:</p>
+        <button type="button" class="btn-demo-autofill" id="btnFillDemo">
+          Fill Demo Credentials (demo_user / demo1234)
+        </button>
+      </div>
+
+      <div class="auth-footer-links">
+        <p>Don't have an account yet? <a href="/register">Create one here</a></p>
+        <p><a href="/">Return to Home</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

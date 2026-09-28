@@ -1,0 +1,165 @@
+{% extends "base.html" %}
+
+{% block title %}Party Budget Planner | PocketSmart AI{% endblock %}
+
+{% block content %}
+<section class="section planner-hero-section">
+  <div class="container planner-shell">
+    <!-- Left Column: Copy & Benefits -->
+    <div class="planner-copy">
+      <span class="eyebrow">Scenario 2 • Event Planning</span>
+      <h1>Celebrate in Style Without Financial Guesswork.</h1>
+      <p>
+        Whether it is a birthday bash, family reception, or corporate social, PocketSmart AI balances catering, venue/guest accommodations, and entertainment sourcing across <strong>Swiggy, Zomato, OYO, and Amazon</strong>.
+      </p>
+
+      <div class="planner-perks">
+        <div class="perk-item">
+          <span class="perk-icon">🍽️</span>
+          <div>
+            <strong>Per-Guest Cost Optimization</strong>
+            <small>Automatically calculates per-head food & drinks allowance to avoid over-ordering.</small>
+          </div>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">🏨</span>
+          <div>
+            <strong>OYO Stays & Venue Sourcing</strong>
+            <small>Identifies budget banquet halls and guest accommodation packages.</small>
+          </div>
+        </div>
+        <div class="perk-item">
+          <span class="perk-icon">🎈</span>
+          <div>
+            <strong>High-Impact Ambient Decor</strong>
+            <small>Curates reusable LED, balloon arch, and sound kits from Amazon & local vendors.</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Interactive Form -->
+    <div class="planner-form-card">
+      <div class="form-header">
+        <h2>Configure Your Party Plan</h2>
+        <p>Set your budget and guest expectations below.</p>
+      </div>
+
+      <form method="post" action="/generate-party" id="partyPlannerForm" class="planner-form">
+        <!-- Budget Input -->
+        <div class="field">
+          <div class="label-row">
+            <label for="partyBudget">Total Event Budget (₹)</label>
+            <span class="budget-display" id="partyBudgetDisplay">₹45,000</span>
+          </div>
+          <input
+            type="range"
+            id="partyBudgetSlider"
+            min="5000"
+            max="300000"
+            step="1000"
+            value="45000"
+            class="range-slider"
+          />
+          <input
+            type="number"
+            id="partyBudget"
+            name="budget"
+            min="2000"
+            max="1000000"
+            value="45000"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <!-- Guest Count with Real-time Per-head calculation -->
+        <div class="field">
+          <div class="label-row">
+            <label for="guest_count">Estimated Guest Count</label>
+            <span class="per-head-badge" id="perHeadBadge">₹1,125 / guest</span>
+          </div>
+          <input
+            type="number"
+            id="guest_count"
+            name="guest_count"
+            min="5"
+            max="1000"
+            value="40"
+            class="form-control"
+            required
+          />
+          <small class="field-hint">Used to calculate exact portion sizes and venue capacity.</small>
+        </div>
+
+        <!-- Event Type -->
+        <div class="field">
+          <label for="event_type">Occasion / Event Type</label>
+          <select id="event_type" name="event_type" class="form-control">
+            <option value="Birthday Celebration" selected>Birthday Celebration</option>
+            <option value="Wedding / Reception Sangeet">Wedding / Sangeet / Reception</option>
+            <option value="Corporate Mixer / Team Outing">Corporate Mixer / Team Outing</option>
+            <option value="Anniversary Party">Anniversary Party</option>
+            <option value="Family Reunion">Family Reunion</option>
+            <option value="Housewarming Party">Housewarming Party</option>
+          </select>
+        </div>
+
+        <!-- Venue Type -->
+        <div class="field">
+          <label for="venue">Preferred Venue Type</label>
+          <input
+            type="text"
+            id="venue"
+            name="venue"
+            value="Rooftop Lounge / Banquet Hall"
+            placeholder="e.g. Banquet Hall, Rooftop, OYO Townhouse, Open Garden, Home Lawn"
+            class="form-control"
+            required
+          />
+        </div>
+
+        <!-- Additional Notes & Catering Preferences -->
+        <div class="field">
+          <label for="notes">Catering & Theme Notes (Optional)</label>
+          <textarea
+            id="notes"
+            name="notes"
+            rows="3"
+            class="form-control"
+            placeholder="e.g. Vegetarian starters, mocktail bar, neon glow theme, Bluetooth DJ speaker setup"
+          >Mix of vegetarian & non-veg starters, mocktail bar, metallic balloon backdrop, background party music</textarea>
+        </div>
+
+        <!-- Live Allocation Estimate Indicator -->
+        <div class="allocation-preview-box">
+          <div class="preview-bar-title">Projected Allocation Split:</div>
+          <div class="allocation-bar-mini">
+            <div class="bar-seg seg-food" title="Catering ~45%" style="width: 45%;"></div>
+            <div class="bar-seg seg-venue" title="Venue ~30%" style="width: 30%;"></div>
+            <div class="bar-seg seg-decor" title="Decor & Music ~20%" style="width: 20%;"></div>
+            <div class="bar-seg seg-buf" title="Buffer ~5%" style="width: 5%;"></div>
+          </div>
+          <div class="allocation-legend">
+            <span><i class="dot-food"></i> Catering (45%)</span>
+            <span><i class="dot-venue"></i> Venue/Stay (30%)</span>
+            <span><i class="dot-decor"></i> Decor/Audio (20%)</span>
+            <span><i class="dot-buf"></i> Buffer (5%)</span>
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button class="btn btn-primary btn-block" type="submit" id="partySubmitBtn">
+          <span>🎉 Generate Curated Party Plan</span>
+        </button>
+
+        <!-- Loading State Indicator -->
+        <div class="form-loading" id="partyFormLoading">
+          <div class="spinner"></div>
+          <p>Gemini AI is distributing catering, venue, and decor options...</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}
